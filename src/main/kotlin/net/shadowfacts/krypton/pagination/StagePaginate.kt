@@ -18,6 +18,11 @@ class StagePaginate: Stage() {
 		val paginate = page.metadata["paginate"] as? Boolean
 		if (paginate != null && paginate) {
 			val pages = input.split(page.krypton.config.paginationDelimiter).map(String::trim).filter(String::isNotEmpty)
+
+			if (System.getProperty("krypton.pagination.debugPages").toBoolean()) {
+				println(pages)
+			}
+
 			page.metadata["pages"] = pages
 			return ""
 		}

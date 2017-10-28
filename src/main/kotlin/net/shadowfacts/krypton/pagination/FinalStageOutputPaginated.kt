@@ -11,22 +11,16 @@ class FinalStageOutputPaginated: FinalStage {
 
 	override fun apply(page: Page, input: String) {
 		if ("pages" in page.metadata) {
-			val pages = page.metadata["pages"] as? List<String>
-			if (pages != null) {
-				val permalink = page.metadata["permalink"] as String
-				pages.forEachIndexed { index, s ->
-					File(page.krypton.config.output, Paginator.getPermalink(page.krypton.config, permalink, index)).apply {
-						parentFile.mkdirs()
-						writeText(s, Charsets.UTF_8)
-					}
-				}
-				return
-
+			val pages = page.metadata["pages"] as List<String>
+			val permalink = page.metadata["permalink"] as String
+			pages.forEachIndexed { index, s ->
+				val dest = File(page.krypton.config.output, Paginator.getPermalink(page.krypton.config, permalink, index))
+				dest.parentFile.mkdirs()
+				dest.writeText(s, Charsets.UTF_8)
 			}
-		}
-		page.output.apply {
-			parentFile.mkdirs()
-			writeText(input, Charsets.UTF_8)
+		} else {
+			page.output.parentFile.mkdirs()
+			page.output.writeText(input, Charsets.UTF_8)
 		}
 	}
 
