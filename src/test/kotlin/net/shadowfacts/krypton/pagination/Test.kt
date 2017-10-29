@@ -1,7 +1,6 @@
 package net.shadowfacts.krypton.pagination
 
 import net.shadowfacts.krypton.Krypton
-import net.shadowfacts.krypton.collections.pipeline.PipelineLoadDefaultCollections
 import net.shadowfacts.krypton.collections.pipeline.stage.StageLoadCollections
 import net.shadowfacts.krypton.config.Configuration
 import net.shadowfacts.krypton.ekt.config.EKTConfig
@@ -44,7 +43,6 @@ fun main(args: Array<String>) {
 		final = FinalStageOutputPaginated()
 	}
 
-	krypton.addPipeline(PipelineLoadDefaultCollections, 100)
 	krypton.addPipeline(PipelineVoidIncludesLayouts, 100)
 
 	krypton.generate()
