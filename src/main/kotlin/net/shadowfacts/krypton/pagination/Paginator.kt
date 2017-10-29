@@ -17,22 +17,21 @@ object Paginator {
 		val totalPages = Math.ceil(items.size.toDouble() / perPage).toInt()
 		for (i in 0.until(totalPages)) {
 			val subList = items.subList(i * perPage, Math.min((i + 1) * perPage, items.size))
-			val prev = if (i == 0) null else getPermalink(page.krypton.config, permalink, i - 1)
-			val next = if (i == totalPages - 1) null else getPermalink(page.krypton.config, permalink, i + 1)
+			val prev = if (i == 0) null else getPermalink(permalink, i - 1)
+			val next = if (i == totalPages - 1) null else getPermalink(permalink, i + 1)
 			pages += PaginationData(i + 1, prev, next) to subList
 		}
 
 		return pages
 	}
 
-	fun getPermalink(config: Configuration, permalink: String, index: Int): String {
+	fun getPermalink(permalink: String, index: Int): String {
 		var permalink = if (index > 0) {
 			val dest = if (permalink.endsWith("/")) permalink else permalink.split(".").dropLast(1).joinToString(".")
 			dest + (index + 1).toString() + "/"
 		} else {
 			permalink
 		}
-		if (permalink.endsWith("/")) permalink += config.permalinkIndex
 		return permalink
 	}
 
